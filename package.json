@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "rimraf combined.log errors.log",
     "dev": "nodemon src/server/server.js",
     "build": "next build",
     "start": "next start"
@@ -18,10 +19,12 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@prisma/cli": "2.2.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "rimraf": "^3.0.2"
   }
 }
