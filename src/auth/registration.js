@@ -2,7 +2,6 @@ const HttpStatus = require("http-status-codes");
 const bcrypt = require("bcrypt");
 const nextLogger = require("../utils/logger");
 const { PrismaClient } = require("@prisma/client");
-const { default: next } = require("next");
 const prisma = new PrismaClient();
 
 const BCRYPT_SALT_ROUNDS = 12;
@@ -17,7 +16,12 @@ const registration = (req, res) => {
   } = req.body.user;
 
   if (password !== passwordConfirmation) {
-    res.status(HttpStatus.BAD_REQUEST).json({
+    nextLogger({
+      level: "error",
+      title: "Password validation failed",
+      message: "Password does not match confirmation",
+    });
+    return res.status(HttpStatus.BAD_REQUEST).json({
       message: "Password doesn't match confirmation.",
     });
   }
@@ -29,7 +33,7 @@ const registration = (req, res) => {
         title: "Hashing password failed",
         message: err,
       });
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
     }
 
     try {
@@ -44,6 +48,7 @@ const registration = (req, res) => {
         select: {
           email: true,
           firstName: true,
+          lastName: true,
         },
       });
 
@@ -51,14 +56,14 @@ const registration = (req, res) => {
         title: "Registered new user",
         message: `Email: ${user.email}`,
       });
-      res.status(HttpStatus.CREATED).json(user);
+      return res.status(HttpStatus.CREATED).json(user);
     } catch (err) {
       nextLogger({
         level: "error",
         title: "User registration failed",
         message: err,
       });
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
     }
   });
 };
