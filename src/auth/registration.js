@@ -2,7 +2,9 @@ const HttpStatus = require("http-status-codes");
 const bcrypt = require("bcrypt");
 const nextLogger = require("../utils/logger");
 const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ["query", "warn"],
+});
 
 const BCRYPT_SALT_ROUNDS = 12;
 
