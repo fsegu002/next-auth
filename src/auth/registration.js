@@ -1,73 +1,45 @@
-const HttpStatus = require("http-status-codes");
-const bcrypt = require("bcrypt");
+const passport = require("passport");
 const nextLogger = require("../utils/logger");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient({
   log: ["query", "warn"],
 });
 
-const BCRYPT_SALT_ROUNDS = 12;
-
-const registration = (req, res) => {
-  const {
-    email,
-    password,
-    passwordConfirmation,
-    firstName,
-    lastName,
-  } = req.body.user;
-
-  if (password !== passwordConfirmation) {
-    nextLogger({
-      level: "error",
-      title: "Password validation failed",
-      message: "Password does not match confirmation",
-    });
-    return res.status(HttpStatus.BAD_REQUEST).json({
-      message: "Password doesn't match confirmation.",
-    });
-  }
-
-  bcrypt.hash(password, BCRYPT_SALT_ROUNDS, async (err, hash) => {
+module.exports = (req, res, next) => {
+  passport.authenticate("register", (err, user, info) => {
     if (err) {
       nextLogger({
         level: "error",
-        title: "Hashing password failed",
+        title: "User registration error",
         message: err,
       });
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+      return res.status(400).json(info.message);
     }
-
-    try {
-      const user = await prisma.user.create({
-        data: {
-          email,
-          password: hash,
-          passwordConfirmation: hash,
-          firstName,
-          lastName,
-        },
-        select: {
-          email: true,
-          firstName: true,
-          lastName: true,
-        },
-      });
-
-      nextLogger({
-        title: "Registered new user",
-        message: `Email: ${user.email}`,
-      });
-      return res.status(HttpStatus.CREATED).json(user);
-    } catch (err) {
+    if (info != undefined) {
       nextLogger({
         level: "error",
-        title: "User registration failed",
-        message: err,
+        title: "User registration info error",
+        message: info.message,
       });
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+      return res.status(400).json(info.message);
+    } else {
+      req.logIn(user, async (err) => {
+        const updatedUser = await prisma.user.update({
+          where: {
+            email: user.email,
+          },
+          data: {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+          },
+          select: {
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        });
+        return res.status(200).json(updatedUser);
+      });
     }
-  });
+  })(req, res, next);
 };
-
-module.exports = registration;

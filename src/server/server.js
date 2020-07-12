@@ -1,16 +1,20 @@
 const express = require("express");
 const next = require("next");
+const passport = require("passport");
 const authRouter = require("./authRouter");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+require("../config/passport");
+
 app
   .prepare()
   .then(() => {
     const server = express();
     server.use(express.json());
+    server.use(passport.initialize());
 
     server.use("/auth/api/v1", authRouter);
 
