@@ -2,6 +2,7 @@ const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const nextLogger = require("../utils/logger");
 const passport = require("passport");
+const HttpStatus = require("http-status-codes");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient({
   log: ["query", "warn"],
@@ -15,7 +16,7 @@ module.exports = (req, res) => {
         title: "User login error",
         message: err,
       });
-      return res.status(400).json({ message: err });
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: err });
     }
     if (info != undefined) {
       nextLogger({
@@ -23,10 +24,12 @@ module.exports = (req, res) => {
         title: "User login info error",
         message: info.message,
       });
-      return res.status(400).json({ message: info.message });
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: info.message });
     } else {
       try {
-        const token = jwt.sign({ user }, jwtSecret().secret);
+        const token = jwt.sign({ user }, jwtSecret().secret, {
+          expiresIn: "24hr",
+        });
         const login = await prisma.login.create({
           data: {
             user: {
@@ -37,7 +40,7 @@ module.exports = (req, res) => {
           },
         });
 
-        return res.status(200).json({
+        return res.status(HttpStatus.OK).json({
           auth: true,
           token: token,
           message: `User logged in successfully at ${login.lastLogin}`,
@@ -48,7 +51,7 @@ module.exports = (req, res) => {
           title: "Unhandled error during signin",
           message: err,
         });
-        return res.status(500).json(err);
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
       }
     }
   })(req, res);

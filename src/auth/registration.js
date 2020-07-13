@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
         title: "User registration error",
         message: err,
       });
-      return res.status(HttpStatus.BAD_REQUEST).json(info.message);
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: err });
     }
     if (info != undefined) {
       nextLogger({
@@ -33,7 +33,7 @@ module.exports = (req, res, next) => {
         title: "User registration info error",
         message: info.message,
       });
-      return res.status(HttpStatus.BAD_REQUEST).json(info.message);
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: info.message });
     } else {
       req.logIn(user, async (err) => {
         const updatedUser = await prisma.user.update({

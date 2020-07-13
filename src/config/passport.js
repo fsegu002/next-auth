@@ -107,11 +107,9 @@ passport.use(
     try {
       nextLogger({
         title: "User jwt",
-        message: {
-          user: jwt_payload,
-        },
+        message: jwt_payload,
       });
-      done(null, { username: "fake user" });
+      done(null, jwt_payload.user);
     } catch (err) {
       done(err);
     }
