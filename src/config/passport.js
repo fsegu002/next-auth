@@ -76,10 +76,10 @@ passport.use(
         if (!passwordsMatch) {
           nextLogger({
             level: "error",
-            title: "Password did not match",
-            message: err,
+            title: "Password validation failed",
+            message: "Password did not match",
           });
-          return done(null, false, { message: "Passwords do not match" });
+          return done(null, false, { message: "Password does not match" });
         }
         delete user.password;
         delete user.passwordConfirmation;

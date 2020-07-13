@@ -1,11 +1,23 @@
 const passport = require("passport");
 const nextLogger = require("../utils/logger");
+const HttpStatus = require("http-status-codes");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient({
   log: ["query", "warn"],
 });
 
 module.exports = (req, res, next) => {
+  const { password, passwordConfirmation } = req.body;
+  if (password !== passwordConfirmation) {
+    nextLogger({
+      level: "error",
+      title: "Password verification failed",
+      message: "Password does not match confirmation",
+    });
+    return res.status(HttpStatus.BAD_REQUEST).json({
+      message: "Password does not match confirmation",
+    });
+  }
   passport.authenticate("register", (err, user, info) => {
     if (err) {
       nextLogger({
@@ -13,7 +25,7 @@ module.exports = (req, res, next) => {
         title: "User registration error",
         message: err,
       });
-      return res.status(400).json(info.message);
+      return res.status(HttpStatus.BAD_REQUEST).json(info.message);
     }
     if (info != undefined) {
       nextLogger({
@@ -21,7 +33,7 @@ module.exports = (req, res, next) => {
         title: "User registration info error",
         message: info.message,
       });
-      return res.status(400).json(info.message);
+      return res.status(HttpStatus.BAD_REQUEST).json(info.message);
     } else {
       req.logIn(user, async (err) => {
         const updatedUser = await prisma.user.update({
@@ -38,7 +50,7 @@ module.exports = (req, res, next) => {
             lastName: true,
           },
         });
-        return res.status(200).json(updatedUser);
+        return res.status(HttpStatus.CREATED).json(updatedUser);
       });
     }
   })(req, res, next);
