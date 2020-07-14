@@ -1,33 +1,46 @@
 {
-  "name": "auth_template",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "predev": "rimraf combined.log errors.log",
-    "dev": "nodemon src/server/server.js",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "@prisma/client": "2.2.0",
-    "bcrypt": "^5.0.0",
-    "express": "^4.17.1",
-    "formik": "^2.1.4",
-    "http-status-codes": "^1.4.0",
-    "isomorphic-unfetch": "^3.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "next": "9.4.4",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "winston": "^3.3.3",
-    "yup": "^0.29.1"
-  },
-  "devDependencies": {
-    "@prisma/cli": "2.2.0",
-    "nodemon": "^2.0.4",
-    "rimraf": "^3.0.2"
-  }
+    "name": "auth_template",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "predev": "rimraf combined.log errors.log",
+        "dev": "nodemon src/server/server.js",
+        "build": "next build",
+        "start": "next start",
+        "eslint": "eslint \"**/*.js\"",
+        "check-format": "prettier --check \"**/*.{js,json,md,scss,yaml,yml}\"",
+        "format": "prettier --write \"**/*.{js,json,md,scss,yaml,yml}\"",
+        "lint": "yarn eslint && yarn format"
+    },
+    "dependencies": {
+        "@prisma/client": "2.2.0",
+        "bcrypt": "^5.0.0",
+        "express": "^4.17.1",
+        "formik": "^2.1.4",
+        "http-status-codes": "^1.4.0",
+        "isomorphic-unfetch": "^3.0.0",
+        "jsonwebtoken": "^8.5.1",
+        "next": "9.4.4",
+        "passport": "^0.4.1",
+        "passport-jwt": "^4.0.0",
+        "passport-local": "^1.0.0",
+        "react": "16.13.1",
+        "react-dom": "16.13.1",
+        "winston": "^3.3.3",
+        "yup": "^0.29.1"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "^7.7.4",
+        "@babel/preset-react": "^7.7.4",
+        "@prisma/cli": "2.2.0",
+        "babel-eslint": "^10.0.3",
+        "eslint": "^5.16.0",
+        "eslint-config-prettier": "^4.0.0",
+        "eslint-plugin-babel": "^5.3.0",
+        "eslint-plugin-jest": "^23.1.1",
+        "eslint-plugin-react": "^7.16.0",
+        "nodemon": "^2.0.4",
+        "prettier": "^1.19.1",
+        "rimraf": "^3.0.2"
+    }
 }

@@ -46,5 +46,3 @@ migration 20200709122029-init..20200709123128-init
 +  userId    Int
  }
 ```
-
-

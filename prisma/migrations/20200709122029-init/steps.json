@@ -1,120 +1,120 @@
 {
-  "version": "0.3.14-fixed",
-  "steps": [
-    {
-      "tag": "CreateSource",
-      "source": "db"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Source",
-        "source": "db"
-      },
-      "argument": "provider",
-      "value": "\"postgresql\""
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Source",
-        "source": "db"
-      },
-      "argument": "url",
-      "value": "\"***\""
-    },
-    {
-      "tag": "CreateModel",
-      "model": "User"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "id",
-      "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "User",
-          "field": "id"
+    "version": "0.3.14-fixed",
+    "steps": [
+        {
+            "tag": "CreateSource",
+            "source": "db"
         },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "User",
-          "field": "id"
+        {
+            "tag": "CreateArgument",
+            "location": {
+                "tag": "Source",
+                "source": "db"
+            },
+            "argument": "provider",
+            "value": "\"postgresql\""
         },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "User",
-          "field": "id"
+        {
+            "tag": "CreateArgument",
+            "location": {
+                "tag": "Source",
+                "source": "db"
+            },
+            "argument": "url",
+            "value": "\"***\""
         },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "email",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "User",
-          "field": "email"
+        {
+            "tag": "CreateModel",
+            "model": "User"
         },
-        "directive": "unique"
-      }
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "password",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "passwordConfirmation",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "firstName",
-      "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "lastName",
-      "type": "String",
-      "arity": "Optional"
-    }
-  ]
+        {
+            "tag": "CreateField",
+            "model": "User",
+            "field": "id",
+            "type": "Int",
+            "arity": "Required"
+        },
+        {
+            "tag": "CreateDirective",
+            "location": {
+                "path": {
+                    "tag": "Field",
+                    "model": "User",
+                    "field": "id"
+                },
+                "directive": "default"
+            }
+        },
+        {
+            "tag": "CreateArgument",
+            "location": {
+                "tag": "Directive",
+                "path": {
+                    "tag": "Field",
+                    "model": "User",
+                    "field": "id"
+                },
+                "directive": "default"
+            },
+            "argument": "",
+            "value": "autoincrement()"
+        },
+        {
+            "tag": "CreateDirective",
+            "location": {
+                "path": {
+                    "tag": "Field",
+                    "model": "User",
+                    "field": "id"
+                },
+                "directive": "id"
+            }
+        },
+        {
+            "tag": "CreateField",
+            "model": "User",
+            "field": "email",
+            "type": "String",
+            "arity": "Required"
+        },
+        {
+            "tag": "CreateDirective",
+            "location": {
+                "path": {
+                    "tag": "Field",
+                    "model": "User",
+                    "field": "email"
+                },
+                "directive": "unique"
+            }
+        },
+        {
+            "tag": "CreateField",
+            "model": "User",
+            "field": "password",
+            "type": "String",
+            "arity": "Required"
+        },
+        {
+            "tag": "CreateField",
+            "model": "User",
+            "field": "passwordConfirmation",
+            "type": "String",
+            "arity": "Required"
+        },
+        {
+            "tag": "CreateField",
+            "model": "User",
+            "field": "firstName",
+            "type": "String",
+            "arity": "Optional"
+        },
+        {
+            "tag": "CreateField",
+            "model": "User",
+            "field": "lastName",
+            "type": "String",
+            "arity": "Optional"
+        }
+    ]
 }

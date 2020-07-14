@@ -1,144 +1,144 @@
 {
-  "version": "0.3.14-fixed",
-  "steps": [
-    {
-      "tag": "CreateModel",
-      "model": "Login"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Login",
-      "field": "id",
-      "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Login",
-          "field": "id"
+    "version": "0.3.14-fixed",
+    "steps": [
+        {
+            "tag": "CreateModel",
+            "model": "Login"
         },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Login",
-          "field": "id"
+        {
+            "tag": "CreateField",
+            "model": "Login",
+            "field": "id",
+            "type": "Int",
+            "arity": "Required"
         },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Login",
-          "field": "id"
+        {
+            "tag": "CreateDirective",
+            "location": {
+                "path": {
+                    "tag": "Field",
+                    "model": "Login",
+                    "field": "id"
+                },
+                "directive": "default"
+            }
         },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateField",
-      "model": "Login",
-      "field": "lastLogin",
-      "type": "DateTime",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Login",
-          "field": "lastLogin"
+        {
+            "tag": "CreateArgument",
+            "location": {
+                "tag": "Directive",
+                "path": {
+                    "tag": "Field",
+                    "model": "Login",
+                    "field": "id"
+                },
+                "directive": "default"
+            },
+            "argument": "",
+            "value": "autoincrement()"
         },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Login",
-          "field": "lastLogin"
+        {
+            "tag": "CreateDirective",
+            "location": {
+                "path": {
+                    "tag": "Field",
+                    "model": "Login",
+                    "field": "id"
+                },
+                "directive": "id"
+            }
         },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "now()"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Login",
-      "field": "user",
-      "type": "User",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Login",
-          "field": "user"
+        {
+            "tag": "CreateField",
+            "model": "Login",
+            "field": "lastLogin",
+            "type": "DateTime",
+            "arity": "Required"
         },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Login",
-          "field": "user"
+        {
+            "tag": "CreateDirective",
+            "location": {
+                "path": {
+                    "tag": "Field",
+                    "model": "Login",
+                    "field": "lastLogin"
+                },
+                "directive": "default"
+            }
         },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[userId]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Login",
-          "field": "user"
+        {
+            "tag": "CreateArgument",
+            "location": {
+                "tag": "Directive",
+                "path": {
+                    "tag": "Field",
+                    "model": "Login",
+                    "field": "lastLogin"
+                },
+                "directive": "default"
+            },
+            "argument": "",
+            "value": "now()"
         },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Login",
-      "field": "userId",
-      "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "logins",
-      "type": "Login",
-      "arity": "List"
-    }
-  ]
+        {
+            "tag": "CreateField",
+            "model": "Login",
+            "field": "user",
+            "type": "User",
+            "arity": "Required"
+        },
+        {
+            "tag": "CreateDirective",
+            "location": {
+                "path": {
+                    "tag": "Field",
+                    "model": "Login",
+                    "field": "user"
+                },
+                "directive": "relation"
+            }
+        },
+        {
+            "tag": "CreateArgument",
+            "location": {
+                "tag": "Directive",
+                "path": {
+                    "tag": "Field",
+                    "model": "Login",
+                    "field": "user"
+                },
+                "directive": "relation"
+            },
+            "argument": "fields",
+            "value": "[userId]"
+        },
+        {
+            "tag": "CreateArgument",
+            "location": {
+                "tag": "Directive",
+                "path": {
+                    "tag": "Field",
+                    "model": "Login",
+                    "field": "user"
+                },
+                "directive": "relation"
+            },
+            "argument": "references",
+            "value": "[id]"
+        },
+        {
+            "tag": "CreateField",
+            "model": "Login",
+            "field": "userId",
+            "type": "Int",
+            "arity": "Required"
+        },
+        {
+            "tag": "CreateField",
+            "model": "User",
+            "field": "logins",
+            "type": "Login",
+            "arity": "List"
+        }
+    ]
 }

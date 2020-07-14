@@ -47,5 +47,3 @@ migration ..20200709122029-init
 +  lastName      String?
 +}
 ```
-
-

@@ -1,0 +1,46 @@
+{
+    "extends": ["plugin:react/recommended", "prettier"],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "jest/globals": true
+    },
+    "plugins": ["react", "babel", "jest"],
+    "rules": {
+        "id-length": [
+            2,
+            {
+                "exceptions": ["t", "I"]
+            }
+        ],
+        "object-shorthand": [1, "properties"],
+        "one-var": [
+            1,
+            {
+                "const": "never"
+            }
+        ],
+        "new-cap": [
+            1,
+            {
+                "properties": false,
+                "capIsNewExceptions": ["Feature", "Scenario", "Before"]
+            }
+        ],
+        "sort-vars": 0,
+        "react/prop-types": 1,
+        "no-invalid-this": 0,
+        "babel/no-invalid-this": 1,
+        "prefer-const": "error"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

@@ -1,33 +1,32 @@
-const express = require("express");
-const next = require("next");
-const passport = require("passport");
-const authRouter = require("./authRouter");
+const express = require('express');
+const next = require('next');
+const passport = require('passport');
+const authRouter = require('./authRouter');
 
-const dev = process.env.NODE_ENV !== "production";
+const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-require("../config/passport");
+require('../config/passport');
 
-app
-  .prepare()
-  .then(() => {
-    const server = express();
-    server.use(express.json());
-    server.use(passport.initialize());
+app.prepare()
+    .then(() => {
+        const server = express();
+        server.use(express.json());
+        server.use(passport.initialize());
 
-    server.use("/auth/api/v1", authRouter);
+        server.use('/auth/api/v1', authRouter);
 
-    server.get("*", (req, res) => {
-      return handle(req, res);
+        server.get('*', (req, res) => {
+            return handle(req, res);
+        });
+
+        server.listen(3000, err => {
+            if (err) throw err;
+            console.log('> Ready on http://localhost:3000');
+        });
+    })
+    .catch(ex => {
+        console.error(ex.stack);
+        process.exit(1);
     });
-
-    server.listen(3000, (err) => {
-      if (err) throw err;
-      console.log("> Ready on http://localhost:3000");
-    });
-  })
-  .catch((ex) => {
-    console.error(ex.stack);
-    process.exit(1);
-  });
