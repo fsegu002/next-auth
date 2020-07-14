@@ -1,7 +1,7 @@
 /* eslint-disable new-cap */
 const jwtSecret = require('./jwtConfig');
 const bcrypt = require('bcrypt');
-const nextLogger = require('../utils/logger');
+const nextLogger = require('../../utils/logger');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient({
     log: ['query', 'warn']
