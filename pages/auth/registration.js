@@ -29,7 +29,7 @@ const Registration = () => {
                     .required()
             })}
             onSubmit={(values, { resetForm }) => {
-                fetch('/auth/api/v1/register', {
+                fetch('/api/auth/v1/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

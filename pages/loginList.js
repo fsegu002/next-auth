@@ -13,10 +13,10 @@ function LoginList({ logins }) {
 }
 
 LoginList.propType = {
-    logins: PropTypes.array.isRequired,
+    logins: PropTypes.array.isRequired
 };
 LoginList.defaultProps = {
-    logins: [],
+    logins: []
 };
 
 export async function getServerSideProps() {

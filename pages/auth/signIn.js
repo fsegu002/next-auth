@@ -21,7 +21,7 @@ const SignIn = () => {
                     .required()
             })}
             onSubmit={(values, { resetForm }) => {
-                fetch('/auth/api/v1/signin', {
+                fetch('/api/auth/v1/signin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

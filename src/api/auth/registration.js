@@ -1,5 +1,5 @@
 const passport = require('passport');
-const nextLogger = require('../utils/logger');
+const nextLogger = require('../../utils/logger');
 const HttpStatus = require('http-status-codes');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient({
