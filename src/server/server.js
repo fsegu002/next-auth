@@ -16,8 +16,8 @@ app.prepare()
         server.use(express.json());
         server.use(passport.initialize());
 
-        server.use('/api/auth/v1', authRouter);
-        server.use('/api/users/v1', userRouter);
+        server.use('/api/v1/auth', authRouter);
+        server.use('/api/v1/users', userRouter);
 
         server.get('*', (req, res) => {
             return handle(req, res);
