@@ -4,8 +4,10 @@ import Router from 'next/router';
 import * as Yup from 'yup';
 import fetch from 'isomorphic-unfetch';
 import HttpStatus from 'http-status-codes';
+import config from '../../src/server/config';
 
 const Registration = () => {
+    const registerRoute = config.api.v1.auth + config.endPoints.register;
     return (
         <Formik
             initialValues={{
@@ -29,7 +31,7 @@ const Registration = () => {
                     .required()
             })}
             onSubmit={(values, { resetForm }) => {
-                fetch('/api/auth/v1/register', {
+                fetch(registerRoute, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

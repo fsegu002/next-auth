@@ -4,8 +4,10 @@ import Router from 'next/router';
 import * as Yup from 'yup';
 import fetch from 'isomorphic-unfetch';
 import HttpStatus from 'http-status-codes';
+import config from '../../src/server/config';
 
 const SignIn = () => {
+    const signInRoute = config.api.v1.auth + config.endPoints.signin;
     return (
         <Formik
             initialValues={{
@@ -21,7 +23,7 @@ const SignIn = () => {
                     .required()
             })}
             onSubmit={(values, { resetForm }) => {
-                fetch('/api/auth/v1/signin', {
+                fetch(signInRoute, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
