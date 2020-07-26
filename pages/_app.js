@@ -1,11 +1,14 @@
 // import App from 'next/app'
 import React from 'react';
 import { Provider } from 'mobx-react';
-import { Store } from '../src/store/Store';
+import { useStore } from '../src/store/Store';
+import 'mobx-react-lite/batchingForReactDom';
 
 function App({ Component, pageProps }) {
+    const store = useStore(pageProps.initialState);
+
     return (
-        <Provider store={Store}>
+        <Provider store={store}>
             <Component {...pageProps} />
         </Provider>
     );

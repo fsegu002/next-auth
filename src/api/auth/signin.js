@@ -41,7 +41,9 @@ module.exports = (req, res) => {
                 });
 
                 return res.status(HttpStatus.OK).json({
+                    status: HttpStatus.OK,
                     auth: true,
+                    user,
                     token,
                     message: `User logged in successfully at ${login.lastLogin}`
                 });

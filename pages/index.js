@@ -1,7 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
+import { observer } from 'mobx-react';
+import useStores from '../src/store/useStores';
 
-export default function Home() {
+function Home() {
+    const { store } = useStores();
+
     return (
         <div className='container'>
             <Head>
@@ -10,9 +14,7 @@ export default function Home() {
             </Head>
 
             <main>
-                <h1 className='title'>
-                    Welcome to <a href='https://nextjs.org'>Next.js!</a>
-                </h1>
+                <h1 className='title'>Welcome, {store.userName}!</h1>
 
                 <p className='description'>
                     Get started by editing <code>pages/index.js</code>
@@ -201,3 +203,5 @@ export default function Home() {
         </div>
     );
 }
+
+export default observer(Home);

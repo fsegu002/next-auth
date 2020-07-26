@@ -21,6 +21,7 @@ module.exports = (req, res, next) => {
             return res.status(HttpStatus.BAD_REQUEST).json({ message: info.message });
         } else {
             res.status(HttpStatus.OK).json({
+                status: res.status,
                 auth: true,
                 ...user
             });
