@@ -25,9 +25,6 @@ const Registration = () => {
                     .required('Required'),
                 password: Yup.string()
                     .min(8, 'Must be at least 8 characters or more')
-                    .required(),
-                passwordConfirmation: Yup.string()
-                    .min(8, 'Must be at least 8 characters or more')
                     .required()
             })}
             onSubmit={(values, { resetForm }) => {
@@ -39,7 +36,6 @@ const Registration = () => {
                     body: JSON.stringify(values)
                 })
                     .then(response => {
-                        console.log(response.json());
                         if (response.status === HttpStatus.CREATED) {
                             resetForm();
                             Router.push('/');
@@ -58,11 +54,6 @@ const Registration = () => {
                         <label htmlFor='password'>Password</label>
                         <Field name='password' type='password' />
                         <ErrorMessage name='password' />
-                    </div>
-                    <div className='form-control'>
-                        <label htmlFor='passwordConfirmation'>Password Confirmation</label>
-                        <Field name='passwordConfirmation' type='password' />
-                        <ErrorMessage name='passwordConfirmation' />
                     </div>
                     <div className='form-control'>
                         <label htmlFor='firstName'>First Name</label>

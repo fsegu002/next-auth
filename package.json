@@ -6,7 +6,7 @@
         "predev": "rimraf combined.log errors.log",
         "dev": "nodemon src/server/server.js",
         "build": "next build",
-        "start": "next start",
+        "start": "node src/server/server.js",
         "eslint": "eslint \"**/*.js\"",
         "check-format": "prettier --check \"**/*.{js,json,md,scss,yaml,yml}\"",
         "format": "prettier --write \"**/*.{js,json,md,scss,yaml,yml}\"",
