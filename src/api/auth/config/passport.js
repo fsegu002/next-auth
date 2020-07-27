@@ -72,7 +72,9 @@ passport.use(
                     return done(null, false, { message: 'Password does not match' });
                 }
 
-                return done(null, user);
+                delete user.dataValues.password;
+
+                return done(null, user.dataValues);
             } catch (err) {
                 nextLogger({
                     level: 'error',

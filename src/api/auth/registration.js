@@ -23,15 +23,16 @@ module.exports = (req, res, next) => {
         } else {
             req.logIn(user, async err => {
                 const [rows, [updatedUser]] = await models.User.update(
-                    { firstName: user.firstName, lastName: user.lastName },
+                    { firstName: req.body.firstName, lastName: req.body.lastName },
                     {
                         returning: true,
                         where: {
-                            email: user.email
+                            id: user.id
                         }
                     }
                 );
 
+                delete updatedUser.dataValues.password;
                 return res.status(HttpStatus.CREATED).json(updatedUser);
             });
         }
