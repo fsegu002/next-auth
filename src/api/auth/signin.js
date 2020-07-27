@@ -3,10 +3,7 @@ const jwt = require('jsonwebtoken');
 const nextLogger = require('../../utils/logger');
 const passport = require('passport');
 const HttpStatus = require('http-status-codes');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient({
-    log: ['query', 'warn']
-});
+const models = require('../../db/models');
 
 module.exports = (req, res) => {
     passport.authenticate('signin', async (err, user, info) => {
@@ -16,7 +13,7 @@ module.exports = (req, res) => {
                 title: 'User login error',
                 message: err
             });
-            return res.status(HttpStatus.BAD_REQUEST).json({ message: err });
+            return res.status(HttpStatus.BAD_REQUEST).json({ message: err.toString() });
         }
         if (info != undefined) {
             nextLogger({
@@ -30,14 +27,8 @@ module.exports = (req, res) => {
                 const token = jwt.sign({ user }, jwtSecret().secret, {
                     expiresIn: '24hr'
                 });
-                const login = await prisma.login.create({
-                    data: {
-                        user: {
-                            connect: {
-                                id: user.id
-                            }
-                        }
-                    }
+                const login = await models.Login.create({
+                    userId: user.id
                 });
 
                 return res.status(HttpStatus.OK).json({
@@ -45,7 +36,7 @@ module.exports = (req, res) => {
                     auth: true,
                     user,
                     token,
-                    message: `User logged in successfully at ${login.lastLogin}`
+                    message: `User logged in successfully at ${login.createdAt}`
                 });
             } catch (err) {
                 nextLogger({

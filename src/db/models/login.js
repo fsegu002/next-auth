@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate({ Login, User }) {
             // define association here
-            Login.belongsTo(User);
+            Login.belongsTo(User, {
+                foreignKey: 'userId'
+            });
         }
     }
     Login.init(

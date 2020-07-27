@@ -2,15 +2,8 @@
 const jwtSecret = require('./jwtConfig');
 const bcrypt = require('bcrypt');
 const nextLogger = require('../../../utils/logger');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient({
-    log: ['query', 'warn']
-});
-
 const models = require('../../../db/models');
-
 const BCRYPT_SALT_ROUNDS = 12;
-
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-jwt').Strategy;
@@ -38,7 +31,7 @@ passport.use(
                     const hash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
                     const newUser = await models.User.create({
                         email,
-                        password
+                        password: hash
                     });
                     return done(null, newUser);
                 }
@@ -64,13 +57,9 @@ passport.use(
         },
         async (email, password, done) => {
             try {
-                const user = await prisma.user.findOne({
-                    where: {
-                        email
-                    }
-                });
+                const user = await models.User.findOne({ email });
 
-                if (!user) {
+                if (user === null) {
                     return done(null, false, { message: 'Username was not found' });
                 }
                 const passwordsMatch = await bcrypt.compare(password, user.password);
@@ -82,8 +71,7 @@ passport.use(
                     });
                     return done(null, false, { message: 'Password does not match' });
                 }
-                delete user.password;
-                delete user.passwordConfirmation;
+
                 return done(null, user);
             } catch (err) {
                 nextLogger({

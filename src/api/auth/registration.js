@@ -22,9 +22,10 @@ module.exports = (req, res, next) => {
             return res.status(HttpStatus.BAD_REQUEST).json({ message: info.message });
         } else {
             req.logIn(user, async err => {
-                const updatedUser = await models.User.update(
+                const [rows, [updatedUser]] = await models.User.update(
                     { firstName: user.firstName, lastName: user.lastName },
                     {
+                        returning: true,
                         where: {
                             email: user.email
                         }
