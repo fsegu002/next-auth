@@ -7,6 +7,8 @@ const prisma = new PrismaClient({
     log: ['query', 'warn']
 });
 
+const models = require('../../../db/models');
+
 const BCRYPT_SALT_ROUNDS = 12;
 
 const passport = require('passport');
@@ -24,21 +26,19 @@ passport.use(
         },
         async (email, password, done) => {
             try {
-                const user = await prisma.user.findOne({
+                const user = await models.User.findAll({
                     where: {
                         email
                     }
                 });
-                if (user != null) {
+
+                if (user.length) {
                     return done(null, false, { message: 'Username is not available' });
                 } else {
                     const hash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-                    const newUser = await prisma.user.create({
-                        data: {
-                            email,
-                            password: hash,
-                            passwordConfirmation: hash
-                        }
+                    const newUser = await models.User.create({
+                        email,
+                        password
                     });
                     return done(null, newUser);
                 }
