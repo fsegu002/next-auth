@@ -57,7 +57,10 @@ passport.use(
         },
         async (email, password, done) => {
             try {
-                const user = await models.User.findOne({ email });
+                const user = await models.User.findOne({
+                    where: { email },
+                    attributes: { include: ['password'] }
+                });
 
                 if (user === null) {
                     return done(null, false, { message: 'Username was not found' });

@@ -1,24 +1,14 @@
 const HttpStatus = require('http-status-codes');
 const nextLogger = require('../../utils/logger');
-const { PrismaClient } = require('@prisma/client');
-const { http } = require('winston');
-const prisma = new PrismaClient({
-    log: ['query', 'warn']
-});
+const models = require('../../db/models');
 
 module.exports = async (req, res, next) => {
     try {
-        const user = await prisma.user.findOne({
-            where: {
-                id: parseInt(req.params.userId)
-            },
-            select: {
-                id: true,
-                email: true,
-                firstName: true,
-                lastName: true
-            }
+        const user = await models.User.findOne({
+            where: { id: req.params.userId },
+            attributes: { excludes: ['password'] }
         });
+
         res.status(HttpStatus.OK).json(user);
     } catch (err) {
         nextLogger({

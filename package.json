@@ -14,7 +14,6 @@
         "sequelize": "cd ./src/db && npx sequelize"
     },
     "dependencies": {
-        "@prisma/client": "2.2.0",
         "bcrypt": "^5.0.0",
         "express": "^4.17.1",
         "formik": "^2.1.4",
@@ -39,7 +38,6 @@
     "devDependencies": {
         "@babel/preset-env": "^7.7.4",
         "@babel/preset-react": "^7.7.4",
-        "@prisma/cli": "2.2.0",
         "babel-eslint": "^10.0.3",
         "eslint": "^5.16.0",
         "eslint-config-prettier": "^4.0.0",

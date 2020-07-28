@@ -24,7 +24,7 @@ module.exports = (req, res) => {
             return res.status(HttpStatus.BAD_REQUEST).json({ message: info.message });
         } else {
             try {
-                const token = jwt.sign({ user }, jwtSecret().secret, {
+                const token = jwt.sign({ userId: user.id }, jwtSecret().secret, {
                     expiresIn: '24hr'
                 });
                 const login = await models.Login.create({

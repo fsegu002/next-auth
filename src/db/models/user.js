@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
             lastName: DataTypes.STRING
         },
         {
+            defaultScope: {
+                attributes: {
+                    exclude: ['password']
+                }
+            },
             sequelize,
             modelName: 'User'
         }
