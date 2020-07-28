@@ -1,9 +1,7 @@
 const express = require('express');
 const next = require('next');
 const passport = require('passport');
-const config = require('./config');
-const authRouter = require('./authRouter');
-const userRouter = require('./userRouter');
+const apiRouter = require('./apiRouter');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -19,8 +17,7 @@ app
     server.use(express.json());
     server.use(passport.initialize());
 
-    server.use(config.api.v1.auth, authRouter);
-    server.use(config.api.v1.users, userRouter);
+    server.use('/api/v1', apiRouter);
 
     server.get('*', (req, res) => {
       return handle(req, res);

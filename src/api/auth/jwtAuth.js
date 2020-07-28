@@ -12,19 +12,17 @@ module.exports = (req, res, next) => {
       });
       return res.status(HttpStatus.BAD_REQUEST).json({ message: err });
     }
-    if (info != undefined) {
-      nextLogger({
-        level: 'error',
-        title: 'User login info error',
-        message: info.message
-      });
-      return res.status(HttpStatus.BAD_REQUEST).json({ message: info.message });
-    } else {
-      res.status(HttpStatus.OK).json({
-        status: res.status,
-        auth: true,
-        ...user
-      });
-    }
+
+    const response = {
+      status: HttpStatus.OK,
+      auth: true,
+      ...user
+    };
+    nextLogger({
+      level: 'error',
+      title: 'JWT auth error',
+      message: response
+    });
+    res.status(HttpStatus.OK).json(response);
   })(req, res, next);
 };

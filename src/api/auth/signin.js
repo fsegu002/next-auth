@@ -15,37 +15,37 @@ module.exports = (req, res) => {
       });
       return res.status(HttpStatus.BAD_REQUEST).json({ message: err.toString() });
     }
-    if (info != undefined) {
+    if (info) {
       nextLogger({
         level: 'error',
         title: 'User login info error',
         message: info.message
       });
       return res.status(HttpStatus.BAD_REQUEST).json({ message: info.message });
-    } else {
-      try {
-        const token = jwt.sign({ userId: user.id }, jwtSecret().secret, {
-          expiresIn: '24hr'
-        });
-        const login = await models.Login.create({
-          userId: user.id
-        });
+    }
 
-        return res.status(HttpStatus.OK).json({
-          status: HttpStatus.OK,
-          auth: true,
-          user,
-          token,
-          message: `User logged in successfully at ${login.createdAt}`
-        });
-      } catch (err) {
-        nextLogger({
-          level: 'error',
-          title: 'Unhandled error during signin',
-          message: err
-        });
-        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
-      }
+    try {
+      const token = jwt.sign({ userId: user.id }, jwtSecret().secret, {
+        expiresIn: '24hr'
+      });
+      const login = await models.Login.create({
+        userId: user.id
+      });
+
+      return res.status(HttpStatus.OK).json({
+        status: HttpStatus.OK,
+        auth: true,
+        user,
+        token,
+        message: `User logged in successfully at ${login.createdAt}`
+      });
+    } catch (err) {
+      nextLogger({
+        level: 'error',
+        title: 'Unhandled error during signin',
+        message: err
+      });
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
     }
   })(req, res);
 };

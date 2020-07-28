@@ -36,11 +36,6 @@ passport.use(
           return done(null, newUser);
         }
       } catch (err) {
-        nextLogger({
-          level: 'error',
-          title: 'User registration info error',
-          message: err
-        });
         done(err);
       }
     }
@@ -67,23 +62,13 @@ passport.use(
         }
         const passwordsMatch = await bcrypt.compare(password, user.password);
         if (!passwordsMatch) {
-          nextLogger({
-            level: 'error',
-            title: 'Password validation failed',
-            message: 'Password did not match'
-          });
-          return done(null, false, { message: 'Password does not match' });
+          return done(null, false, { message: 'Password validation failed' });
         }
 
         delete user.dataValues.password;
 
         return done(null, user.dataValues);
       } catch (err) {
-        nextLogger({
-          level: 'error',
-          title: 'Unhandled error during signin',
-          message: err
-        });
         done(err);
       }
     }
@@ -99,11 +84,7 @@ passport.use(
   'jwt',
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
-      nextLogger({
-        title: 'User jwt',
-        message: jwt_payload
-      });
-      done(null, jwt_payload.user);
+      done(null, jwt_payload);
     } catch (err) {
       done(err);
     }
