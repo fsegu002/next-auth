@@ -5,13 +5,13 @@ import { useStore } from '../src/store/Store';
 import 'mobx-react-lite/batchingForReactDom';
 
 function App({ Component, pageProps }) {
-    const store = useStore(pageProps.initialState);
+  const store = useStore(pageProps.initialState);
 
-    return (
-        <Provider store={store}>
-            <Component {...pageProps} />
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for
