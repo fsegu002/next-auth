@@ -3,6 +3,7 @@ const apiRouter = express.Router();
 const registration = require('../api/auth/registration');
 const signIn = require('../api/auth/signin');
 const jwtAuth = require('../api/auth/jwtAuth');
+const { isOwnResource } = require('../api/auth/authMiddleware');
 const { getUser } = require('../api/users');
 
 const path = {
@@ -19,6 +20,6 @@ apiRouter.post(`${path.auth}/signin`, signIn);
 /**
  * User
  */
-apiRouter.get(`${path.users}/:userId`, jwtAuth, getUser);
+apiRouter.get(`${path.users}/:userId`, [jwtAuth, isOwnResource], getUser);
 
 module.exports = apiRouter;

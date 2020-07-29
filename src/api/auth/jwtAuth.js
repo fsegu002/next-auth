@@ -22,13 +22,18 @@ module.exports = (req, res, next) => {
       return res.status(HttpStatus.UNAUTHORIZED).json({ message: info.message });
     }
 
-    const userId = req.params.userId;
-    if (userId == user.userId) {
-      const userFromDB = await models.User.findOne({ id: user.userId });
+    try {
+      const userFromDB = await models.User.findOne({ where: { id: user.userId } });
       req.user = userFromDB.dataValues;
-      return next();
-    }
 
-    res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Unauthorized' });
+      return next();
+    } catch (err) {
+      nextLogger({
+        level: 'error',
+        title: 'JWT DB error',
+        message: err.toString()
+      });
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   })(req, res, next);
 };

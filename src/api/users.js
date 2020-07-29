@@ -5,8 +5,7 @@ const models = require('../db/models');
 const getUser = async (req, res, next) => {
   try {
     const user = await models.User.findOne({
-      where: { id: req.params.userId },
-      attributes: { excludes: ['password'] }
+      where: { id: req.params.userId }
     });
 
     res.status(HttpStatus.OK).json(user);
