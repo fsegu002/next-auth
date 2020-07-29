@@ -1,8 +1,8 @@
 const HttpStatus = require('http-status-codes');
-const nextLogger = require('../../utils/logger');
-const models = require('../../db/models');
+const nextLogger = require('../utils/logger');
+const models = require('../db/models');
 
-module.exports = async (req, res, next) => {
+const getUser = async (req, res, next) => {
   try {
     const user = await models.User.findOne({
       where: { id: req.params.userId },
@@ -20,4 +20,8 @@ module.exports = async (req, res, next) => {
       message: 'Get user request failed'
     });
   }
+};
+
+module.exports = {
+  getUser
 };
