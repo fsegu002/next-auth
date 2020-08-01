@@ -4,13 +4,12 @@ import Router from 'next/router';
 import * as Yup from 'yup';
 import fetch from 'isomorphic-unfetch';
 import HttpStatus from 'http-status-codes';
-import config from '../../src/server/config';
 import useStores from '../../src/store/useStores';
 import { observer } from 'mobx-react';
 
 const SignIn = () => {
   const { store } = useStores();
-  const signInRoute = config.api.v1.auth + config.endPoints.signin;
+  const signInRoute = '/api/v1/auth/signin';
   return (
     <>
       <h3>{store.userName}</h3>

@@ -14,7 +14,7 @@ function Home() {
       </Head>
 
       <main>
-        <h1 className='title'>Welcome, {store.userName}!</h1>
+        <h1 className='title'>Welcome to Next.js!</h1>
 
         <p className='description'>
           Get started by editing <code>pages/index.js</code>

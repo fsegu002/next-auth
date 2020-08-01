@@ -1,0 +1,11 @@
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react", "next/babel"],
+  "env": {
+    "development": {
+      "presets": [["@babel/preset-react", { "development": true }]]
+    },
+    "test": {
+      "plugins": ["@babel/plugin-transform-runtime"]
+    }
+  }
+}
