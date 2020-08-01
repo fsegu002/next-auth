@@ -12,7 +12,7 @@ const SignIn = () => {
   const signInRoute = '/api/v1/auth/signin';
   return (
     <>
-      <h3>{store.userName}</h3>
+      <h3>Sign In</h3>
       <Formik
         initialValues={{
           email: '',
