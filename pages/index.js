@@ -1,8 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { observer } from 'mobx-react';
+import useStores from '../src/store/useStores';
 
 function Home() {
+  const { store } = useStores();
   return (
     <div className='container'>
       <Head>
@@ -13,6 +16,17 @@ function Home() {
       <main>
         <h1 className='title'>Welcome to Next.js!</h1>
 
+        <h3>
+          {store.user.auth ? (
+            <Link href='#'>
+              <a onClick={store.resetUser}>Sign Out</a>
+            </Link>
+          ) : (
+            <Link href='/auth/signin'>
+              <a>Sign In</a>
+            </Link>
+          )}
+        </h3>
         <p className='description'>
           Get started by editing <code>pages/index.js</code>
         </p>

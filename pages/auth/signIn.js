@@ -36,12 +36,10 @@ const SignIn = () => {
             .then(res => res.json())
             .then(({ status, user, token }) => {
               if (status === HttpStatus.OK) {
-                store.setUser({ ...user, id: user.id.toString(), jwt: token });
+                const userObj = { ...user, id: user.id.toString(), jwt: token, auth: true };
+                store.setUser(userObj);
 
-                localStorage.setItem(
-                  'user',
-                  JSON.stringify({ user: { ...user, id: user.id.toString(), jwt: token } })
-                );
+                localStorage.setItem('user', JSON.stringify({ user: userObj }));
                 resetForm();
                 Router.push('/');
               }

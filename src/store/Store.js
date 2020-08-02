@@ -4,12 +4,22 @@ import { types, applySnapshot } from 'mobx-state-tree';
 let store;
 
 const User = types.model({
+  auth: types.boolean,
   id: types.string,
   email: types.string,
   firstName: types.string,
   lastName: types.string,
   jwt: types.string
 });
+
+const initialUser = {
+  auth: false,
+  id: '',
+  email: '',
+  firstName: '',
+  lastName: '',
+  jwt: ''
+};
 
 const Store = types
   .model({
@@ -18,6 +28,9 @@ const Store = types
   .actions(self => ({
     setUser(user) {
       self.user = user;
+    },
+    resetUser() {
+      self.user = initialUser;
     }
   }))
   .views(self => ({
@@ -30,13 +43,7 @@ export function initializeStore(snapshot = null) {
   const _store =
     store ??
     Store.create({
-      user: {
-        id: '',
-        email: '',
-        firstName: '',
-        lastName: '',
-        jwt: ''
-      }
+      user: initialUser
     });
 
   // If your page has Next.js data fetching methods that use a Mobx store, it will
