@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       defaultScope: {
         attributes: {
-          exclude: ['password']
+          exclude: ['password', 'createdAt', 'updatedAt']
         }
       },
       sequelize,

@@ -7,6 +7,13 @@ import 'mobx-react-lite/batchingForReactDom';
 function App({ Component, pageProps }) {
   const store = useStore(pageProps.initialState);
 
+  React.useEffect(() => {
+    const userObj = JSON.parse(localStorage.getItem('user'));
+    if (userObj) {
+      store.setUser(userObj.user);
+    }
+  }, []);
+
   return (
     <Provider store={store}>
       <Component {...pageProps} />

@@ -1,11 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
 import { observer } from 'mobx-react';
-import useStores from '../src/store/useStores';
 
 function Home() {
-  const { store } = useStores();
-
   return (
     <div className='container'>
       <Head>

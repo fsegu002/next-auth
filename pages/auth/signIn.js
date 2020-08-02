@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import fetch from 'isomorphic-unfetch';
 import HttpStatus from 'http-status-codes';
 import useStores from '../../src/store/useStores';
-import { observer } from 'mobx-react';
 
 const SignIn = () => {
   const { store } = useStores();
@@ -38,8 +37,13 @@ const SignIn = () => {
             .then(({ status, user, token }) => {
               if (status === HttpStatus.OK) {
                 store.setUser({ ...user, id: user.id.toString(), jwt: token });
+
+                localStorage.setItem(
+                  'user',
+                  JSON.stringify({ user: { ...user, id: user.id.toString(), jwt: token } })
+                );
                 resetForm();
-                // Router.push('/');
+                Router.push('/');
               }
             })
             .catch(err => console.error(err));
@@ -64,4 +68,4 @@ const SignIn = () => {
   );
 };
 
-export default observer(SignIn);
+export default SignIn;
