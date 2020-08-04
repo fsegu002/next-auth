@@ -31,6 +31,7 @@ const Store = types
       self.user = user;
     },
     resetUser() {
+      localStorage.removeItem('user');
       self.user = initialUser;
     }
   }))
