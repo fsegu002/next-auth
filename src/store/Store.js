@@ -27,6 +27,7 @@ const Store = types
   })
   .actions(self => ({
     setUser(user) {
+      localStorage.setItem('user', JSON.stringify({ user }));
       self.user = user;
     },
     resetUser() {

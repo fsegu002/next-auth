@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const next = require('next');
 const passport = require('passport');
 const apiRouter = require('./apiRouter');
@@ -14,6 +15,7 @@ app
   .prepare()
   .then(() => {
     const server = express();
+    server.use(cors());
     server.use(express.json());
     server.use(passport.initialize());
 

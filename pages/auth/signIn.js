@@ -8,7 +8,7 @@ import useStores from '../../src/store/useStores';
 
 const SignIn = () => {
   const { store } = useStores();
-  const signInRoute = '/api/v1/auth/signin';
+  const signInRoute = 'http://localhost:3000/api/v1/auth/signin';
   return (
     <>
       <h3>Sign In</h3>
@@ -38,8 +38,6 @@ const SignIn = () => {
               if (status === HttpStatus.OK) {
                 const userObj = { ...user, id: user.id.toString(), jwt: token, auth: true };
                 store.setUser(userObj);
-
-                localStorage.setItem('user', JSON.stringify({ user: userObj }));
                 resetForm();
                 Router.push('/');
               }
@@ -50,12 +48,12 @@ const SignIn = () => {
           <Form>
             <div className='form-control'>
               <label htmlFor='email'>Email Address</label>
-              <Field name='email' type='email' />
+              <Field name='email' type='email' id='email' />
               <ErrorMessage name='email' />
             </div>
             <div className='form-control'>
               <label htmlFor='password'>Password</label>
-              <Field name='password' type='password' />
+              <Field name='password' type='password' id='password' />
               <ErrorMessage name='password' />
             </div>
             <button type='submit'>Sign In</button>
