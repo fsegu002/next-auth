@@ -1,65 +1,72 @@
 import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Router from 'next/router';
-import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers';
+import * as yup from 'yup';
 import fetch from 'isomorphic-unfetch';
 import HttpStatus from 'http-status-codes';
 import useStores from '../../src/store/useStores';
 
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Must be valid email')
+    .required('Email is required'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(8, 'Password must be at least 8 chars long')
+});
+
 const SignIn = () => {
   const { store } = useStores();
+  const { register, handleSubmit, reset, errors, setError, clearErrors } = useForm({
+    resolver: yupResolver(schema)
+  });
   const signInRoute = 'http://localhost:3000/api/v1/auth/signin';
+  const onSubmit = async data => {
+    clearErrors();
+    const result = await fetch(signInRoute, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!result.ok) {
+      const { message } = await result.json();
+      setError('signin', {
+        type: 'manual',
+        message
+      });
+      return false;
+    }
+
+    reset();
+
+    const { user, token } = await result.json();
+    const userObj = { ...user, id: user.id.toString(), jwt: token, auth: true };
+    store.setUser(userObj);
+    Router.push('/');
+  };
   return (
     <>
       <h3>Sign In</h3>
-      <Formik
-        initialValues={{
-          email: '',
-          password: ''
-        }}
-        validationSchema={Yup.object({
-          email: Yup.string()
-            .email('Invalid email address')
-            .required('Required'),
-          password: Yup.string()
-            .min(8, 'Must be at least 8 characters or more')
-            .required()
-        })}
-        onSubmit={(values, { resetForm }) => {
-          fetch(signInRoute, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
-          })
-            .then(res => res.json())
-            .then(({ status, user, token }) => {
-              if (status === HttpStatus.OK) {
-                const userObj = { ...user, id: user.id.toString(), jwt: token, auth: true };
-                store.setUser(userObj);
-                resetForm();
-                Router.push('/');
-              }
-            })
-            .catch(err => console.error(err));
-        }}>
-        {
-          <Form>
-            <div className='form-control'>
-              <label htmlFor='email'>Email Address</label>
-              <Field name='email' type='email' id='email' />
-              <ErrorMessage name='email' />
-            </div>
-            <div className='form-control'>
-              <label htmlFor='password'>Password</label>
-              <Field name='password' type='password' id='password' />
-              <ErrorMessage name='password' />
-            </div>
-            <button type='submit'>Sign In</button>
-          </Form>
-        }
-      </Formik>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <div className='form-control'>
+          <label htmlFor='email'>Email Address</label>
+          <input type='email' name='email' id='email' ref={register} />
+          <p>{errors.email?.message}</p>
+        </div>
+        <div className='form-control'>
+          <label htmlFor='password'>Password</label>
+          <input type='password' name='password' id='password' ref={register} />
+          <p>{errors.password?.message}</p>
+        </div>
+        {errors.signin && <p>{errors.signin.message}</p>}
+        <button type='submit'>Sign In</button>
+      </form>
     </>
   );
 };

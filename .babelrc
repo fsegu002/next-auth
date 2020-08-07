@@ -1,11 +1,18 @@
 {
-  "presets": ["@babel/preset-env", "@babel/preset-react", "next/babel"],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "entry"
+      }
+    ],
+    "@babel/preset-react",
+    "next/babel"
+  ],
+  "plugins": ["@babel/plugin-proposal-class-properties", "@babel/plugin-transform-runtime"],
   "env": {
     "development": {
       "presets": [["@babel/preset-react", { "development": true }]]
-    },
-    "test": {
-      "plugins": ["@babel/plugin-transform-runtime"]
     }
   }
 }

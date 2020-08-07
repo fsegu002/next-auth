@@ -1,8 +1,16 @@
 import React from 'react';
 import Router from 'next/router';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  getByText,
+  waitForElement
+} from '@testing-library/react';
 import SignIn from '../signin';
 import useStores from '../../../src/store/useStores';
+import { server, rest } from '../../../testConfig/server';
 
 jest.mock('../../../src/store/useStores.js', () => jest.fn());
 jest.mock('next/router', () => ({
@@ -18,35 +26,37 @@ describe('<SignIn />', () => {
     }));
   });
 
-  beforeEach(() => render(<SignIn />));
-
   it('renders Sign In with text and fields', () => {
-    expect(screen.getByRole('heading', { name: 'Sign In' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Sign In' })).toBeInTheDocument();
-    expect(screen.getByLabelText('Email Address')).toBeInTheDocument();
-    expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    const { getByRole, getByLabelText } = render(<SignIn />);
+    expect(getByRole('heading', { name: 'Sign In' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Sign In' })).toBeInTheDocument();
+    expect(getByLabelText('Email Address')).toBeInTheDocument();
+    expect(getByLabelText('Password')).toBeInTheDocument();
   });
 
   it('shows error messages', async () => {
+    const { getByText, getByRole } = render(<SignIn />);
     const emailInput = screen.getByLabelText('Email Address');
+    const signinButton = getByRole('button', { name: 'Sign In' });
 
     await waitFor(() => {
       fireEvent.change(emailInput, { target: { value: 'badEmail.com' } });
-      fireEvent.blur(emailInput);
-      expect(screen.getByText('Invalid email address')).toBeInTheDocument();
+      fireEvent.click(signinButton);
+      expect(getByText('Must be valid email')).toBeInTheDocument();
     });
 
     await waitFor(() => {
       fireEvent.change(emailInput, { target: { value: '' } });
-      fireEvent.blur(emailInput);
-      expect(screen.getByText('Required')).toBeInTheDocument();
+      fireEvent.click(signinButton);
+      expect(getByText('Email is required')).toBeInTheDocument();
     });
   });
 
   it('should fetch user login info', async () => {
-    const emailInput = screen.getByLabelText('Email Address');
-    const passwordInput = screen.getByLabelText('Password');
-    const signinButton = screen.getByRole('button', { name: 'Sign In' });
+    const { getByRole, getByLabelText } = render(<SignIn />);
+    const emailInput = getByLabelText('Email Address');
+    const passwordInput = getByLabelText('Password');
+    const signinButton = getByRole('button', { name: 'Sign In' });
 
     await waitFor(() => {
       fireEvent.change(emailInput, { target: { value: 'test7@abc.com' } });
@@ -55,5 +65,28 @@ describe('<SignIn />', () => {
 
       expect(Router.push).toHaveBeenCalled();
     });
+  });
+
+  it('should fail login request', async () => {
+    server.use(
+      rest.post('http://localhost:3000/api/v1/auth/signin', (req, res, ctx) => {
+        return res(
+          ctx.status(500),
+          ctx.json({
+            message: 'Password is incorrect'
+          })
+        );
+      })
+    );
+    const { getByRole, getByLabelText, findByText } = render(<SignIn />);
+    const emailInput = getByLabelText('Email Address');
+    const passwordInput = getByLabelText('Password');
+    const signinButton = getByRole('button', { name: 'Sign In' });
+
+    fireEvent.change(emailInput, { target: { value: 'test7@abc.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'test1234' } });
+    fireEvent.click(signinButton);
+
+    expect(await findByText('Password is incorrect')).toBeInTheDocument();
   });
 });
