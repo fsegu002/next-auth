@@ -22,19 +22,8 @@ module.exports = (req, res, next) => {
       return res.status(HttpStatus.BAD_REQUEST).json({ message: info.message });
     }
 
-    req.logIn(user, async err => {
-      const [rows, [updatedUser]] = await models.User.update(
-        { firstName: req.body.firstName, lastName: req.body.lastName },
-        {
-          returning: true,
-          where: {
-            id: user.id
-          }
-        }
-      );
+    // HERE we could use req.logIn to login user automatically
 
-      delete updatedUser.dataValues.password;
-      return res.status(HttpStatus.CREATED).json(updatedUser);
-    });
+    return res.status(HttpStatus.CREATED).json(user);
   })(req, res, next);
 };

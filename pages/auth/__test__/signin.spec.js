@@ -1,13 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  getByText,
-  waitForElement
-} from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import SignIn from '../signin';
 import useStores from '../../../src/store/useStores';
 import { server, rest } from '../../../testConfig/server';
@@ -35,21 +28,17 @@ describe('<SignIn />', () => {
   });
 
   it('shows error messages', async () => {
-    const { getByText, getByRole } = render(<SignIn />);
-    const emailInput = screen.getByLabelText('Email Address');
+    const { findByText, getByRole, getByLabelText } = render(<SignIn />);
+    const emailInput = getByLabelText('Email Address');
     const signinButton = getByRole('button', { name: 'Sign In' });
 
-    await waitFor(() => {
-      fireEvent.change(emailInput, { target: { value: 'badEmail.com' } });
-      fireEvent.click(signinButton);
-      expect(getByText('Must be valid email')).toBeInTheDocument();
-    });
+    fireEvent.change(emailInput, { target: { value: 'badEmail.com' } });
+    fireEvent.click(signinButton);
+    expect(await findByText('Must be valid email')).toBeInTheDocument();
 
-    await waitFor(() => {
-      fireEvent.change(emailInput, { target: { value: '' } });
-      fireEvent.click(signinButton);
-      expect(getByText('Email is required')).toBeInTheDocument();
-    });
+    fireEvent.change(emailInput, { target: { value: '' } });
+    fireEvent.click(signinButton);
+    expect(await findByText('Email is required')).toBeInTheDocument();
   });
 
   it('should fetch user login info', async () => {
