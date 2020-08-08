@@ -28,8 +28,14 @@ module.exports = (sequelize, DataTypes) => {
           len: 8
         }
       },
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING
+      firstName: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+      }
     },
     {
       defaultScope: {
