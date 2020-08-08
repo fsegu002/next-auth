@@ -28,7 +28,7 @@ const Store = types
   .actions(self => ({
     setUser(user) {
       localStorage.setItem('user', JSON.stringify({ user }));
-      self.user = user;
+      self.user = { ...initialUser, ...user };
     },
     resetUser() {
       localStorage.removeItem('user');

@@ -47,7 +47,7 @@
             "type": "node",
             "request": "launch",
             "name": "Next: Node",
-            "runtimeExecutable": "node",
+            "runtimeExecutable": "/Users/fsegura@ibm.com/.nvm/versions/node/v14.7.0/bin/node",
             "runtimeArgs": [
                 "--inspect",
                 "src/server/server.js"
