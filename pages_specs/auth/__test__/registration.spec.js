@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Registration from '../registration';
+import Registration from '../../../pages/auth/registration';
 
 describe('<Registration />', () => {
   it('renders Registration with text and fields', () => {

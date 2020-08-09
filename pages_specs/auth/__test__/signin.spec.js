@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import SignIn from '../signin';
+import SignIn from '../../../pages/auth/signin';
 
 jest.mock('next/link', () => {
   return ({ children }) => {

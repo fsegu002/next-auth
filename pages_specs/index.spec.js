@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import App from '../index';
-import useStores from '../../src/store/useStores';
+import App from '../pages/index';
+import useStores from '../src/store/useStores';
 import 'mobx-react-lite/batchingForReactDom';
 
 jest.mock('next/link', () => {
@@ -9,7 +9,7 @@ jest.mock('next/link', () => {
     return children;
   };
 });
-jest.mock('../../src/store/useStores.js', () => jest.fn());
+jest.mock('../src/store/useStores.js', () => jest.fn());
 
 describe('App', () => {
   beforeAll(() => {
