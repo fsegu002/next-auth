@@ -1,6 +1,6 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ['**/*.{js,jsx}', '!**/node_modules/**'],
+  collectCoverageFrom: ['./{pages,src}/**/*.{js,jsx}', '!**/node_modules/**'],
   coverageReporters: ['text-summary', 'html', 'text'],
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],

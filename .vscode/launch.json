@@ -32,6 +32,7 @@
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "disableOptimisticBPs": true,
+            "runtimeExecutable": "/Users/fsegura@ibm.com/.nvm/versions/node/v14.7.0/bin/node",
             "windows": {
                 "program": "${workspaceFolder}/node_modules/jest/bin/jest",
             }

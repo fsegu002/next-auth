@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from '../index';
 import useStores from '../../src/store/useStores';
+import 'mobx-react-lite/batchingForReactDom';
 
 jest.mock('next/link', () => {
   return ({ children }) => {
