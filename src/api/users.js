@@ -1,7 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const nextLogger = require('../utils/logger');
 const models = require('../db/models');
-const { restart } = require('nodemon');
 
 const getUser = async (req, res, next) => {
   try {

@@ -4,7 +4,7 @@ import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
 import * as yup from 'yup';
-import fetch from 'isomorphic-unfetch';
+import http from '../../utils/http';
 import useStores from '../../store/useStores';
 
 const schema = yup.object().shape({
@@ -26,19 +26,16 @@ const AuthForm = ({ route, isSignIn }) => {
 
   const onSubmit = async data => {
     clearErrors();
-    const result = await fetch(route, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
 
-    if (!result.ok) {
-      const { message } = await result.json();
+    const response = await http({
+      url: route,
+      method: 'POST',
+      data
+    });
+    if (!response.ok) {
       setError('serverError', {
         type: 'manual',
-        message
+        message: response.data.message
       });
       return false;
     }
@@ -46,7 +43,7 @@ const AuthForm = ({ route, isSignIn }) => {
     reset();
 
     if (isSignIn) {
-      const { user, token } = await result.json();
+      const { user, token } = response.data;
       const userObj = { ...user, id: user.id.toString(), jwt: token, auth: true };
       store.setUser(userObj);
       Router.push('/');
